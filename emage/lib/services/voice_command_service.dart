@@ -11,10 +11,11 @@ import 'package:porcupine_flutter/porcupine_error.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'dart:io';
 import 'dart:isolate';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 // Simple emergency service without complex foreground tasks
 class WorkingEmergencyService {
-  static const String _accessKey = "tYXe+hzd+1mQO2hw2rEOQkSWKW+xPSd5vZLqz675Q26VobkUkIjwqQ==";
+  static String get _accessKey => dotenv.env['PICOVOICE_ACCESS_KEY'] ?? "";
   static PorcupineManager? _porcupineManager;
   static final FlutterTts _tts = FlutterTts();
   static bool _isRunning = false;

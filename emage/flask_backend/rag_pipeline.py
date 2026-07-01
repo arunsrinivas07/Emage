@@ -4,6 +4,11 @@ import pickle
 import os
 from google import genai   # ✅ Gemini client
 from mistralai import Mistral  # ✅ Mistral client
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
+load_dotenv(os.path.join(os.path.dirname(__file__), '..', '.env'))
 
 
 class RagPipeline:
@@ -14,8 +19,11 @@ class RagPipeline:
                  mistral_model="mistral-embed"):
 
         # Load API keys
-        self.gemini_key = os.getenv("GEMINI_API_KEY") or "AIzaSyCMz0rytVT9biyUhYVCB8K42FjLAcRh7Hw"
-        self.mistral_key = os.getenv("MISTRAL_API_KEY") or "u9QZxvoJD7xxQmJKiRRwTcFkJueATN9p"
+        self.gemini_key = os.getenv("GEMINI_API_KEY")
+        self.mistral_key = os.getenv("MISTRAL_API_KEY")
+
+        if not self.gemini_key or not self.mistral_key:
+            raise ValueError("GEMINI_API_KEY or MISTRAL_API_KEY is not set in environment/env file")
 
         # Init clients
         self.client_gemini = genai.Client(api_key=self.gemini_key)
